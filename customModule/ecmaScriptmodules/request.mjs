@@ -9,7 +9,4 @@ function encrypt(data) {
   return 'encrypted data';
 }
 
-module.exports = {
-  send: send,
-  REQUEST_TIMEOUT,
-};
+export { send, REQUEST_TIMEOUT };
