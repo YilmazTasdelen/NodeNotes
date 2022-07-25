@@ -20,6 +20,8 @@ const friends = [
 ];
 
 server.on('request', (req, res) => {
+  //request is readable stream
+  //resonse is writable stream
   const items = req.url.split('/');
   // /friends/2 => ['', 'friends', '2']
   // /friends/
@@ -30,6 +32,7 @@ server.on('request', (req, res) => {
       friends.push(JSON.parse(friend));
     });
     req.pipe(res);
+    // write request stream to response stream
   } else if (req.method === 'GET' && items[1] === 'friends') {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
