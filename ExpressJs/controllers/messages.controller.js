@@ -12,6 +12,13 @@ function getFile(req, res) {
   res.sendFile(path.join(__dirname, '..', 'public', 'testimage.png'));
 }
 
+function serveOtherPage(req, res) {
+  res.render('messages', {
+    title: 'test title 2',
+    friend: 'test friend',
+  })(path.join(__dirname, '..', 'public', 'testimage.png'));
+}
+
 function postMessages(req, res) {
   console.log('updating messages');
 }
@@ -19,4 +26,5 @@ function postMessages(req, res) {
 module.exports = {
   getMessages,
   postMessages,
+  serveOtherPage,
 };

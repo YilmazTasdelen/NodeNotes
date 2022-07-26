@@ -4,6 +4,9 @@ const path = require('path');
 const app = express(); // create server
 const PORT = 3001;
 
+app.set('view engine', 'hbs'); //app set is set settings to server method. in this line we set view engine we use
+app.set('views', path.join(__dirname, 'views'));
+
 const friendsRouter = require('./routes/friends.router');
 const messagesRouter = require('./routes/messages.router');
 // const friendsRouter = express.Router();
@@ -19,6 +22,14 @@ app.use((req, res, next) => {
 
 app.use(express.json()); // apply the json parser middleware
 
+app.get('/', (req, res) => {
+  res.render('index', {
+    // body in layout page is index.hbs
+    //title goes to layout and caption goes to index at the same time we are all done
+    title: 'test title',
+    caption: 'test caption',
+  });
+});
 // app.get('/friends', (req, res) => {
 //   res.json(friends);
 // });
