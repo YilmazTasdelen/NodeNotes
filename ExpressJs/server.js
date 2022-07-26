@@ -1,16 +1,19 @@
 const express = require('express');
-const messagesController = require('./controllers/messages.controller');
-const friendsController = require('./controllers/friends.controller');
 
 const app = express(); // create server
 const PORT = 3001;
+
+const friendsRouter = require('./routes/friends.router');
+const messagesRouter = require('./routes/messages.router');
+// const friendsRouter = express.Router();
+//const messagesRouter = express.Router();
 
 app.use((req, res, next) => {
   const start = Date.now();
   next(); //passes the action the right route handler
   //after action execute response return the middle ware
   const delta = Date.now() - start;
-  console.log(`${req.method} - ${req.url} ${delta}ms`);
+  console.log(`${req.method} -${req.baseUrl}- ${req.url} ${delta}ms`);
 });
 
 app.use(express.json()); // apply the json parser middleware
@@ -19,7 +22,7 @@ app.use(express.json()); // apply the json parser middleware
 //   res.json(friends);
 // });
 
-app.get('/friends', friendsController.getFriends);
+//friendsRouter.get('/', friendsController.getFriends);
 
 // app.post('/friends', (req, res) => {
 //   if (!req.body.name) {
@@ -34,7 +37,7 @@ app.get('/friends', friendsController.getFriends);
 //   res.json(newFriend);
 // });
 
-app.post('/friends', friendsController.postFriend);
+//friendsRouter.post('/', friendsController.postFriend);
 
 // app.get('/friends:friendId', (req, res) => {
 //   const friendId = Number(req.params.friendId);
@@ -46,19 +49,23 @@ app.post('/friends', friendsController.postFriend);
 //   }
 // });
 
-app.get('/friends:friendId', friendsController.getFriend);
+//friendsRouter.get('/:friendId', friendsController.getFriend);
 
 // app.get('/messages', (req, res) => {
 //   res.send('first message');
 // });
 
-app.get('/messages', messagesController.getMessages);
+//messagesRouter.get('/messages', messagesController.getMessages);
 
 // app.post('/messages', (req, res) => {
 //   console.log('opdating messages');
 // });
 
-app.post('/messages', messagesController.postMessages);
+//messagesRouter.post('/messages', messagesController.postMessages);
+
+// app.use(messagesRouter);
+app.use('/friends', friendsRouter);
+app.use(messagesRouter);
 
 app.listen(PORT, () => {
   console.log('server is on');
