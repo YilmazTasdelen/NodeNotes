@@ -14,8 +14,31 @@ const friends = [
   },
 ];
 
+app.use((req, res, next) => {
+  const start = Date.now();
+  next(); //passes the action the right route
+  //after action execute response return the middle ware
+  const delta = Date.now() - start;
+  console.log(`${req.method} - ${req.url} ${delta}ms`);
+});
+
+app.use(express.json()); // apply the json parser middleware
+
 app.get('/friends', (req, res) => {
   res.json(friends);
+});
+
+app.post('/friends', (req, res) => {
+  if (!req.body.name) {
+    res.status(400).json({ error: 'missing friend name' });
+  }
+  const newFriend = {
+    //request.body doesnt exist unless we parse json
+    name: req.body.name,
+    id: friends.length,
+  };
+  friends.push(newFriend);
+  res.json(newFriend);
 });
 
 app.get('/friends:friendId', (req, res) => {
