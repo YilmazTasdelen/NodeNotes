@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 const app = express(); // create server
 const PORT = 3001;
@@ -66,6 +67,10 @@ app.use(express.json()); // apply the json parser middleware
 // app.use(messagesRouter);
 app.use('/friends', friendsRouter);
 app.use(messagesRouter);
+
+// for serving static files
+//app.use('site', express.static('public'));
+app.use('site', express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => {
   console.log('server is on');

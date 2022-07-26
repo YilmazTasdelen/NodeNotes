@@ -5,5 +5,6 @@ const messagesController = require('./controllers/messages.controller');
 
 messagesRouter.get('/messages', messagesController.getMessages);
 messagesRouter.post('/messages', messagesController.postMessages);
+messagesRouter.get('/messages/file', messagesController.getFile);
 
 module.exports = messagesRouter;
