@@ -14,7 +14,7 @@ const launch = {
   success: true,
 };
 
-launches.set(launch.flightNumber, launch);
+launches.set(latestFlightNumber, launch);
 
 function getAllLaunches() {
   return Array.from(launches.values());
@@ -35,6 +35,7 @@ function addNewLaunch(launch) {
 }
 
 function existLaunchWithId(launchId) {
+  //console.log(launchId, launches.has(parseInt(launchId)));
   return launches.has(launchId);
 }
 

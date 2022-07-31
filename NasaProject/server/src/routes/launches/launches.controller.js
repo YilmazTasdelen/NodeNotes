@@ -34,15 +34,16 @@ function httpAddNewLaunch(req, res) {
 
 
 function httpAbroadLaunch(req, res) {
-  const launchId = req.params.id;
-
-  if (!existLaunchWithId()) {
+  const launchId = Number(req.params.id);
+  // console.log("launchId", launchId);
+  if (!existLaunchWithId(launchId)) {
     return res.status(404).json({
       err: 'Launch not found'
     })
   }
 
   const aborted = abortLaunchById(launchId);
+  console.log("aborted", aborted);
   return res.status(200).json(aborted);
 }
 
