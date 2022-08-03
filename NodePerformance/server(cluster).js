@@ -1,5 +1,6 @@
 const express = require('express');
 const cluster = require('cluster');
+const os = require('os');
 
 const app = express();
 
@@ -28,8 +29,14 @@ app.get('/timer', (req, res) => {
 console.log('Running server.js.');
 if (cluster.isMaster) {
     console.log('Master process started.');
-    cluster.fork(); // it uses cpu cors
-    cluster.fork();
+    const NUM_WORKERS = os.cpus().length;
+    for (let i = 0; i < NUM_WORKERS; i++) {
+        // we have 8 cors in local machines so we can handle 8 blocking delay function request same time.
+        cluster.fork();
+    }
+
+    // cluster.fork(); // it uses cpu cors
+    // cluster.fork();
 } else {
     console.log('worker process started');
     app.listen(5001);
@@ -49,5 +56,15 @@ Running server.js.
 worker process started
 Running server.js.
 worker process started
+ * 
+ */
+
+/***
+ * for pm2 load balance 
+ * pm2 list, status, ls commands
+ * pm2 start
+ * pm2 stop {process name as id like 0 } or 
+ * pm2 stop server
+ * pm2 delete server
  * 
  */
